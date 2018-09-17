@@ -38,12 +38,17 @@ class rundeck::params {
   $manage_home = true
   $service_logs_dir = '/var/log/rundeck'
 
-  #$rdeck_uuid = $facts['serialnumber'] ? {
-  #  '0'     => fqdn_uuid($::fqdn),
-  #  undef   => fqdn_uuid($::fqdn),
-  #  default => $facts['serialnumber'],
-  #}
-  $rdeck_uuid = $::rundeck::rdeck_uuid
+  if $::rundeck::rdeck_uuid =~ Undef {
+    $rdeck_uuid = $facts['serialnumber'] ? {
+      '0'     => fqdn_uuid($::fqdn),
+      undef   => fqdn_uuid($::fqdn),
+      default => $facts['serialnumber'],
+    }
+  }
+  else {
+    $rdeck_uuid = $::rundeck::rdeck_uuid
+  }
+
   $framework_config = {
     'framework.server.name'     => $::fqdn,
     'framework.server.hostname' => $::fqdn,
