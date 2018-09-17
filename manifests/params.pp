@@ -38,7 +38,7 @@ class rundeck::params {
   $manage_home = true
   $service_logs_dir = '/var/log/rundeck'
 
-  if $rundeck::rdeck_uuid {
+  if $::rundeck::rdeck_uuid {
     $rdeck_uuid = $::rundeck::rdeck_uuid
   }
   else {
